@@ -2,7 +2,7 @@
 library(shinydashboard)
 library(zoo)
 library(quantmod)
-library(xlsx)
+library(openxlsx)
 library(dplyr)
 library(highcharter)
 library(sqldf)
@@ -51,10 +51,10 @@ ui <- dashboardPage(
                 #Toujours dans la ligne on cree une une boite contenant les selecteurs avec leur description
                 box(h4("Selection des parametres"),
                     #Selecteur des colomnes avec des donnees numeriques
-                    selectizeInput("numCol", "Critere numerique", choices = numericCol),
+                    selectizeInput("numCol", "Critere numerique", choices = numericCol, selected = numericCol[1]),
                     
                     #Selecteur des colomnes
-                    selectizeInput("alphaNumCol", "Critere alphanumerique", choices = alphaNumericCol),
+                    selectizeInput("alphaNumCol", "Critere alphanumerique", choices = alphaNumericCol, selected = alphaNumericCol[2]),
                     
                     #Selecteur des methodes d'ajustement
                     selectizeInput("method","Methode d\'ajustement", choices = c("none","holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr")),
@@ -141,11 +141,10 @@ server <- function(input, output) {
   
   #Boite a moustache
   output$boxplot1 <- renderHighchart({
-    highchart() %>%
-      hc_add_series_boxplot(x = unFacteur()$numeric, by = unFacteur()$var, outliers = FALSE, name = paste(input$numCol,"/",input$alphaNumCol, sep = "")) %>%
+      hcboxplot(x = unFacteur()$numeric, var = unFacteur()$var, outliers = FALSE, name = paste(input$numCol,"/",input$alphaNumCol, sep = "")) %>%
       hc_title(text = paste("Repartition de la variable", input$numCol, "en fonction de la variable", input$alphaNumCol, sep = " "))
   })
-  
+
   #Vue globale des donnees
   output$topView1 = renderPrint(
     round(
@@ -153,7 +152,7 @@ server <- function(input, output) {
         table(unFacteur()$var),
         tapply(unFacteur()$numeric,unFacteur()$var,mean),
         tapply(unFacteur()$numeric,unFacteur()$var,sd)),
-    3)
+      )
     )
   
   #tableau d'Anova a un facteur
