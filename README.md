@@ -4,6 +4,7 @@ Projet de fin de DUT
 Application en R permettant de charger un document excel et de faire des calculs statistiques sur ces données.
 
 A améliorer : 
+
 **-Gérer les exceptions où certains modèles n'acceptent que des variables qualitatives**
 
 **-Nettoyer le document excel via l'application et ne pas devoir le faire en amont**
