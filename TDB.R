@@ -100,9 +100,9 @@ ui <- dashboardPage(
       tabItem(tabName = "2facteurs",
               fluidRow(
                 box(h4("Selection des parametres"),
-                    selectizeInput("numCol2", "Critere numerique", choices = numericCol),
-                    selectizeInput("alphaNumCol2_1", "Premier critere alphanumerique", choices = alphaNumericCol),
-                    selectizeInput("alphaNumCol2_2", "Deuxieme critere alphanumerique", choices = alphaNumericCol)
+                    selectizeInput("numCol2", "Critere numerique", choices = numericCol, selected = numericCol[1]),
+                    selectizeInput("alphaNumCol2_1", "Premier critere alphanumerique", choices = alphaNumericCol, selected = alphaNumericCol[2]),
+                    selectizeInput("alphaNumCol2_2", "Deuxieme critere alphanumerique", choices = alphaNumericCol, selected = alphaNumericCol[3])
                 ),
                 box(h4("Effets individuels des variances"),
                     
